@@ -5,16 +5,13 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc.team5610.robot;
-
-//import org.usfirst.frc5616.RobotTest0001.RobotMap;
+package org.usfirst.frc.team5616.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 /**
@@ -27,31 +24,22 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 public class Robot extends IterativeRobot {
 	private Spark leftFrontMotor = new Spark(0);
 	private Spark leftBackMotor = new Spark(1);
-	private Spark rightFrontMotor = new Spark(2);
-	private Spark rightBackMotor = new Spark(3);
+	private Spark rightFrontMotor = new Spark (2);
+	private Spark rightBackMotor = new Spark (3);
+	
 	
 	//private DifferentialDrive m_robotDrive
-	//= new DifferentialDrive(new Spark(0), new Spark(1));
-   //private Joystick m_stick = new Joystick(0);
-   private OurXboxController x_stick = new OurXboxController(0);
+		//	= new DifferentialDrive(new Spark(0), new Spark(1));
+	private Joystick m_stick = new Joystick(0);
+	//private OurXboxController x_stick = new OurXboxController(0);
 	private Timer m_timer = new Timer();
-	
-	private  SpeedControllerGroup rightSpeedControllerGroup 
-	   = new SpeedControllerGroup(rightFrontMotor, rightBackMotor);
-	private  SpeedControllerGroup leftSpeedControllerGroup 
-	    = new SpeedControllerGroup(leftFrontMotor, leftBackMotor);
-	
 
-//	private  SpeedControllerGroup rightSpeedControllerGroup 
-//	   = new SpeedControllerGroup(new Spark(2), new Spark(3));
-//	private  SpeedControllerGroup leftSpeedControllerGroup 
-//	    = new SpeedControllerGroup(new Spark(0), new Spark(1));
+	private SpeedControllerGroup rightSpeedControllerGroup
+		= new SpeedControllerGroup(rightFrontMotor, rightBackMotor);
+	private SpeedControllerGroup leftSpeedControllerGroup
+		= new SpeedControllerGroup(leftFrontMotor, leftBackMotor);
 	private DifferentialDrive m_robotDrive
-	  = new DifferentialDrive(leftSpeedControllerGroup, rightSpeedControllerGroup);
-
-
-
-
+		= new DifferentialDrive(leftSpeedControllerGroup, rightSpeedControllerGroup);
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -76,16 +64,11 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		// Drive for 2 seconds
-		
 		if (m_timer.get() < 2.0) {
-			//m_robotDrive.arcadeDrive(0.5, 0.0); // drive forwards half speed
-			leftSpeedControllerGroup.set(0.3);
-			rightSpeedControllerGroup.set(0.3);
-
+			m_robotDrive.arcadeDrive(0.5, 0.0); // drive forwards half speed
 		} else {
 			m_robotDrive.stopMotor(); // stop robot
 		}
-		
 	}
 
 	/**
@@ -94,7 +77,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		rightSpeedControllerGroup.setInverted(false);
-
 	}
 
 	/**
@@ -102,7 +84,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		m_robotDrive.tankDrive(x_stick.getLeftStickY(), x_stick.getRightStickY());
+		//m_robotDrive.tankDrive(x_stick.getLeftStickY(), x_stick.getRightStickY());
+		m_robotDrive.arcadeDrive(this.m_stick.getY(), m_stick.getZ());
 	}
 
 	/**
