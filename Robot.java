@@ -5,17 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc.team5610.robot;
-
-//import org.usfirst.frc5616.RobotTest0001.RobotMap;
+package org.usfirst.frc.team5616.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,33 +24,46 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	private Spark leftFrontMotor = new Spark(0);
+/*	private Spark leftFrontMotor = new Spark(0);
 	private Spark leftBackMotor = new Spark(1);
+<<<<<<< HEAD
 	private Spark rightFrontMotor = new Spark(2);
 	private Spark rightBackMotor = new Spark(3);
+	*/
+	private Talon leftFrontMotor = new Talon(0);
+	private Talon leftBackMotor = new Talon(1);
+	private Talon rightFrontMotor = new Talon(2);
+	private Talon rightBackMotor = new Talon(3);
+=======
+	private Spark rightFrontMotor = new Spark (2);
+	private Spark rightBackMotor = new Spark (3);
 	
+>>>>>>> e9f23d5635e994326b87fbedd2f7220ead035703
+	
+	private SpeedControllerGroup rightSpeedControllerGroup
+	= new SpeedControllerGroup(rightFrontMotor, rightBackMotor);
+private SpeedControllerGroup leftSpeedControllerGroup
+	= new SpeedControllerGroup(leftFrontMotor, leftBackMotor);
+private DifferentialDrive m_robotDrive
+	= new DifferentialDrive(leftSpeedControllerGroup, rightSpeedControllerGroup);
+
+
 	//private DifferentialDrive m_robotDrive
-	//= new DifferentialDrive(new Spark(0), new Spark(1));
-   //private Joystick m_stick = new Joystick(0);
-   private OurXboxController x_stick = new OurXboxController(0);
+		//	= new DifferentialDrive(new Spark(0), new Spark(1));
+	private Joystick m_stick = new Joystick(0);
+	//private OurXboxController x_stick = new OurXboxController(0);
 	private Timer m_timer = new Timer();
+<<<<<<< HEAD
 	
-	private  SpeedControllerGroup rightSpeedControllerGroup 
-	   = new SpeedControllerGroup(rightFrontMotor, rightBackMotor);
-	private  SpeedControllerGroup leftSpeedControllerGroup 
-	    = new SpeedControllerGroup(leftFrontMotor, leftBackMotor);
-	
+=======
 
-//	private  SpeedControllerGroup rightSpeedControllerGroup 
-//	   = new SpeedControllerGroup(new Spark(2), new Spark(3));
-//	private  SpeedControllerGroup leftSpeedControllerGroup 
-//	    = new SpeedControllerGroup(new Spark(0), new Spark(1));
+	private SpeedControllerGroup rightSpeedControllerGroup
+		= new SpeedControllerGroup(rightFrontMotor, rightBackMotor);
+	private SpeedControllerGroup leftSpeedControllerGroup
+		= new SpeedControllerGroup(leftFrontMotor, leftBackMotor);
 	private DifferentialDrive m_robotDrive
-	  = new DifferentialDrive(leftSpeedControllerGroup, rightSpeedControllerGroup);
-
-
-
-
+		= new DifferentialDrive(leftSpeedControllerGroup, rightSpeedControllerGroup);
+>>>>>>> e9f23d5635e994326b87fbedd2f7220ead035703
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -76,16 +88,18 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		// Drive for 2 seconds
-		
 		if (m_timer.get() < 2.0) {
-			//m_robotDrive.arcadeDrive(0.5, 0.0); // drive forwards half speed
-			leftSpeedControllerGroup.set(0.3);
-			rightSpeedControllerGroup.set(0.3);
+			m_robotDrive.arcadeDrive(0.5, 0.0); // drive forwards half speed
+<<<<<<< HEAD
+			//eftSpeedControllerGroup.set(0.3); 
+			//rightSpeedControllerGroup.set(0.3);
+			//m_robotDrive.tankDrive(0.5, -0.5);  // Pivot Turn 2 secs
 
+=======
+>>>>>>> e9f23d5635e994326b87fbedd2f7220ead035703
 		} else {
 			m_robotDrive.stopMotor(); // stop robot
 		}
-		
 	}
 
 	/**
@@ -94,7 +108,11 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		rightSpeedControllerGroup.setInverted(false);
-
+<<<<<<< HEAD
+		m_robotDrive.setDeadband(0.10);
+		m_robotDrive.setMaxOutput(0.60);
+=======
+>>>>>>> e9f23d5635e994326b87fbedd2f7220ead035703
 	}
 
 	/**
@@ -102,7 +120,24 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		m_robotDrive.tankDrive(x_stick.getLeftStickY(), x_stick.getRightStickY());
+		//m_robotDrive.tankDrive(x_stick.getLeftStickY(), x_stick.getRightStickY());
+<<<<<<< HEAD
+		m_robotDrive.arcadeDrive(x_stick.getLeftStickY()*-1.0, x_stick.getRightStickX());
+		/* Driver: Bradly
+		 * Left Stick: Accelerate front/back
+		 * Right Stick: Rotate on x axis
+		 */
+		
+		if(x_stick.getRawButton(2)) { // B Button
+			SmartDashboard.putBoolean("B Button Press: ", true);
+		} else {
+			SmartDashboard.putBoolean("B Button Press: ", false);
+		}
+		SmartDashboard.putNumber("Left Y Stick: ", x_stick.getLeftStickY());
+		SmartDashboard.putNumber("Right Y Stick: ", x_stick.getRightStickY());		
+=======
+		m_robotDrive.arcadeDrive(this.m_stick.getY(), m_stick.getZ());
+>>>>>>> e9f23d5635e994326b87fbedd2f7220ead035703
 	}
 
 	/**
@@ -110,5 +145,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		rightSpeedControllerGroup.set(0.3);
+		leftSpeedControllerGroup.set(0.3);
+		
 	}
 }
